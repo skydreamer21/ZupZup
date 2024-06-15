@@ -24,7 +24,7 @@ public class RestEndToEndTest {
 
     @Autowired private ObjectMapper objectMapper;
     @Autowired private MemberService memberService;
-    @Autowired private JwtProvider jwtProvider;
+    @Autowired protected JwtProvider jwtProvider;
 
     protected Member authMember;
 
@@ -38,7 +38,7 @@ public class RestEndToEndTest {
             authMember = createTestAuthMember();
         }
 
-        return jwtProvider.createAuthorizationToken(authMember.getId());
+        return memberService.issueAuthorizationToken(authMember.getId());
     }
 
     protected String toJson(Object o) throws JsonProcessingException {
