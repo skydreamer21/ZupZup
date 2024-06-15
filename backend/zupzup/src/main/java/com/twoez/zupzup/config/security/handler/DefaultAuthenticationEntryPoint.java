@@ -27,19 +27,6 @@ public class DefaultAuthenticationEntryPoint extends Http403ForbiddenEntryPoint 
             throws IOException {
         log.info("[AuthenticationEntryPoint] {} {}", request.getMethod(), request.getRequestURI());
 
-        Assertions.with(request)
-                // Authorization Header가 있는지 체크
-                .setValidation(HttpRequestUtils::hasAuthorizationHeader)
-                .validateOrExecute(
-                        () ->
-                                writeExceptionResponse(
-                                        response, HttpExceptionCode.INVALID_AUTHORIZATION_HEADER))
-                .validate();
-
-        if (response.isCommitted()) {
-            return;
-        }
-
         log.info("additional stack trace in AuthenticationEntryPoint");
         arg2.printStackTrace();
         super.commence(request, response, arg2);
